@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { paisSmall } from '../interfaces/paises.interface';
+import { Observable, of } from 'rxjs';
+import { paisSmall, Pais } from '../interfaces/paises.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +21,13 @@ export class PaisesService {
     const url = `${this.baseUrl}/region/${ region }?fields=name,alpha3Code`
       return this.http.get<paisSmall[]>(url);
   }
+
+  getPaisPorCodigo( codigo: string): Observable<Pais | null >{
+    if(!codigo){
+      return of(null)
+    }
+    const url = `${this.baseUrl}/alpha/${codigo}`;
+    return this.http.get<Pais>(url);
+  }
+
 }
